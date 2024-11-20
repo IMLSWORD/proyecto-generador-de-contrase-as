@@ -19,6 +19,12 @@ function generar() {
     return;
   }
 
+  if (numeroDigitado > 50) {
+    mensaje.textContent = "La cantidad de dígitos debe ser menor a 50.";
+    mensaje.className = "error";
+    return;
+  }
+
   if (numeroDigitado <= 5) {
     mensaje.textContent = "La cantidad de dígitos debe ser mayor a 5.";
     mensaje.className = "error";
@@ -92,5 +98,10 @@ limpiarBoton.addEventListener("click", function () {
 });
 
 copiarBoton.addEventListener("click", function () {
+  let mensaje = document.getElementById("mensaje");
   navigator.clipboard.writeText(campoTexto.value);
+    if(campoTexto.value = true){
+      mensaje.textContent = `Se ha copiado con exito en el portapapeles`;
+      mensaje.className = "exito";
+    }
 });

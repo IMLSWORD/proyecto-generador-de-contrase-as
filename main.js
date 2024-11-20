@@ -11,31 +11,42 @@ const cadenaDeCaracteres =
 
 function generar() {
   let numeroDigitado = parseInt(cantidad.value);
+  let mensaje = document.getElementById("mensaje");
 
-  if (numeroDigitado > 5) {
-    alert(`Se ha generado una contraseña de ${cantidad.value} dígitos.`);
-  } else {
-    alert("Debe ser mayor a 5");
+  if (isNaN(numeroDigitado)) {
+    mensaje.textContent = "Por favor, introduce un número válido.";
+    mensaje.className = "error";
     return;
   }
 
-  let password = "";
+  if (numeroDigitado <= 5) {
+    mensaje.textContent = "La cantidad de dígitos debe ser mayor a 5.";
+    mensaje.className = "error";
+    return;
+  }
 
+  mensaje.textContent = `Se ha generado una contraseña de ${numeroDigitado} dígitos.`;
+  mensaje.className = "exito";
+
+  // Generar contraseña
+  let password = "";
   for (let i = 0; i < numeroDigitado; i++) {
     let caracterAleatorio =
       cadenaDeCaracteres[Math.floor(Math.random() * cadenaDeCaracteres.length)];
-
     password += caracterAleatorio;
   }
 
+  // Mostrar contraseña generada
   campoTexto.value = password;
 
+  // Verificar seguridad de la contraseña
   let seguridad = verificarSeguridad(password);
   seguridadMensaje.textContent = seguridad.mensaje;
   seguridadMensaje.classList.remove("green", "orange", "red");
   seguridadMensaje.classList.add(seguridad.color);
   seguridadMensaje.style.display = "block";
 
+  // Agregar contraseña al historial
   agregarAlHistorial(password, seguridad.mensaje, seguridad.color);
 }
 
@@ -68,26 +79,18 @@ function verificarSeguridad(password) {
   }
 }
 
-limpiarBoton.addEventListener("click", function () {
-  campoTexto.value = "";
-  seguridadMensaje.style.display = "none";
-});
-
-copiarBoton.addEventListener("click", copiarTexto);
-
-function copiarTexto() {
-  navigator.clipboard.writeText(campoTexto.value);
-}
-
-copiarBoton.addEventListener("click", copiarTexto);
-
-function copiarTexto() {
-  navigator.clipboard.writeText(campoTexto.value);
-}
-
 function agregarAlHistorial(password, mensaje, color) {
   let historialItem = document.createElement("div");
   historialItem.classList.add("historial-item", color);
   historialItem.innerHTML = `<strong>${password}</strong> - ${mensaje}`;
   historial.appendChild(historialItem);
 }
+
+limpiarBoton.addEventListener("click", function () {
+  campoTexto.value = "";
+  seguridadMensaje.style.display = "none";
+});
+
+copiarBoton.addEventListener("click", function () {
+  navigator.clipboard.writeText(campoTexto.value);
+});

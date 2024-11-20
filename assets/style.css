@@ -33,6 +33,20 @@ body::before {
   opacity: 0.4;
 }
 
+#mensaje {
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    color: white;
+    font-size: 1rem;
+  }
+  .exito {
+    background-color: green;
+  }
+  .error {
+    background-color: red;
+  }
+
 .container {
   width: 80%;
   min-width: 100;
